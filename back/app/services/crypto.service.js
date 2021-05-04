@@ -1,20 +1,14 @@
+const algorithm8b6t = require('../core/8b6t.crypto');
+
 function encodeMessage(message) {
-  //todo: encode message and return
+  return algorithm8b6t.encode(message);
 }
 
-function storeVaccine() {
+function decodeMessage(message) {
 
 }
-
-function testGetVaccines() {
-  let warehouse = db.getWarehouse();
-  console.log(warehouse.listVaccinesByTime());
-  console.log(getVaccines('CoronaVac', 3));
-}
-
-testGetVaccines();
 
 module.exports = {
-  getVaccines,
-  storeVaccine,
+  encodeMessage,
+  decodeMessage
 };
