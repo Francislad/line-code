@@ -1,14 +1,16 @@
 {
-  "name": "Backend of line-code project",
+  "name": "line-code-be",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend of line-code project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "author": "François Bruno Rueckert",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "restify": "^8.5.1"
   }
 }
