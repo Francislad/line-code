@@ -53,22 +53,45 @@ function encode(message) {
   let hexArr = convertBinArrToHexArr(binArr);
 
   let last = 0;
-  let encodedSpacedMessage = hexArr.reduce((m, hex) => {
+
+  let hexSignalArr = hexArr.map(hex => {
     let signal = bToT[hex];
-    if(last) {
-      last = 0;
-      return m + invertSignal(signal) + ' ';
-    }
-    last = DCLevel(signal);
-    return m + signal + ' ';
+      if(last) {
+        last = 0;
+        return {hex, signal: invertSignal(signal)};
+      }
+      last = DCLevel(signal);
+    return {hex, signal};
+  });
+
+  let encodedSpacedMessage = hexSignalArr.reduce((m, hexSignal) => {
+    return m + hexSignal.signal + ' ';
   }, '').slice(0, -1);
+
+  let encodedMessage = hexSignalArr.reduce((m, hexSignal) => {
+    return m + hexSignal.signal;
+  }, '');
+
+  let encodedSignal = hexSignalArr.reduce((eS, hexSignal) => {
+    let i = 1;
+    let hexSignalsArr = hexSignal.signal.split("").map(s => {
+      let value = s === '-' ? -1 : s === '+' ? 1 : 0;
+      let name = `${hexSignal.hex}-${i++}`;
+      return {name, value};
+    });
+
+    return [...eS, ...hexSignalsArr];
+  }, []);
 
   return {
     message,
     binary: binArr.join(""),
     binarySpaced: binArr.join(" "),
-    encodedMessage: encodedSpacedMessage.split(" ").join(""),
-    encodedSpacedMessage
+    hex: hexArr.join(""),
+    hexSpaced: hexArr.join(" "),
+    encodedMessage,
+    encodedSpacedMessage,
+    encodedSignal,
   };
 }
 
