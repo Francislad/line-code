@@ -1,0 +1,13 @@
+.content {
+  display: flex;
+  height: 100%;
+}
+
+app-content {
+  flex-grow: 1;
+}
+
+app-sidebar, app-content {
+  padding: 5px;
+  margin: 5px;
+}
