@@ -97,6 +97,7 @@ function encode(message) {
     encodedMessage,
     encodedSpacedMessage,
     encodedSignal,
+    viewWidth: message.length * 350
   };
 }
 
