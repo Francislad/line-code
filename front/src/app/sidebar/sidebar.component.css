@@ -1,0 +1,20 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  width: 150px;
+  border-right: 1px solid #D7DBDD;
+}
+
+.sidebar-item {
+  cursor: pointer;
+  font-size: 12px;
+  padding: 5px;
+  margin: 5px;
+}
+
+.sidebar-item.selected {
+  background-color: #EEF3F5;
+  border-radius: 4px;
+}

@@ -1,0 +1,23 @@
+.navbar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  margin: 5px;
+  padding: 5px 10px;
+  border-bottom: 1px solid #D7DBDD;
+}
+
+.navbar-brand {
+  max-width: 12%;
+  height: auto;
+}
+
+.logo {
+  max-width: 100%;
+}
+
+.navbar-title {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
