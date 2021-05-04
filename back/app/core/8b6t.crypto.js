@@ -48,13 +48,14 @@ function convertBinToHex(binStr) {
 
 
 function encode(message) {
-  let asciiArr = convertStrToAsciiArr(message);
-  let binArr = convertAsciiArrToBinArr(asciiArr);
-  let hexArr = convertBinArrToHexArr(binArr);
-
   let last = 0;
+  let hexCounters = {};
 
-  let hexSignalArr = hexArr.map(hex => {
+  const asciiArr = convertStrToAsciiArr(message);
+  const binArr = convertAsciiArrToBinArr(asciiArr);
+  const hexArr = convertBinArrToHexArr(binArr);
+
+  const hexSignalArr = hexArr.map(hex => {
     let signal = bToT[hex];
       if(last) {
         last = 0;
@@ -64,19 +65,23 @@ function encode(message) {
     return {hex, signal};
   });
 
-  let encodedSpacedMessage = hexSignalArr.reduce((m, hexSignal) => {
+  const encodedSpacedMessage = hexSignalArr.reduce((m, hexSignal) => {
     return m + hexSignal.signal + ' ';
   }, '').slice(0, -1);
 
-  let encodedMessage = hexSignalArr.reduce((m, hexSignal) => {
+  const encodedMessage = hexSignalArr.reduce((m, hexSignal) => {
     return m + hexSignal.signal;
   }, '');
 
-  let encodedSignal = hexSignalArr.reduce((eS, hexSignal) => {
+  const encodedSignal = hexSignalArr.reduce((eS, hexSignal) => {
     let i = 1;
+
+    if(hexCounters[hexSignal.hex]) hexCounters[hexSignal.hex]++;
+    else hexCounters[hexSignal.hex] = 1;
+
     let hexSignalsArr = hexSignal.signal.split("").map(s => {
       let value = s === '-' ? -1 : s === '+' ? 1 : 0;
-      let name = `${hexSignal.hex}-${i++}`;
+      let name = `${hexSignal.hex}-${hexCounters[hexSignal.hex]}/${i++}`;
       return {name, value};
     });
 
