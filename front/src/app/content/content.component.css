@@ -1,0 +1,101 @@
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.form-field {
+  flex: 0 49%;
+  margin-bottom: 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form-field > input,
+.form-field textarea {
+  width: 90%;
+  border-radius: 4px;
+  padding: 10px;
+  outline: none;
+  background-color: #EEF3F5;
+  border: 2px solid #EEF3F5;
+}
+
+.form-field > input:focus,
+.form-field textarea:focus {
+  border: 2px solid #EEF3F5;
+  background-color: #FCFDFD;
+}
+
+.form-field > input.invalid {
+  border: 2px solid #f51d1b;
+}
+
+.form-field textarea {
+  min-height: 60px;
+  resize: vertical;
+}
+
+.form-field label {
+  margin-bottom: 5px;
+  display: flex;
+}
+
+.form-field small {
+  display: flex;
+  margin-left: 10px;
+  align-items: center;
+}
+
+.form-field small input {
+  margin: 0 5px 2px 0;
+}
+
+.form-field small i {
+  font-size: 12px;
+}
+
+.button {
+  align-self: center;
+  margin-top: 5px;
+  flex-grow: 1;
+}
+
+.zoom {
+  width: calc(100vw - 400px);
+  align-self: center;
+  margin-right: 100px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.zoom button {
+  width: 30px;
+  height: 30px;
+}
+
+.zoom button.right {
+  border-radius: 0 .2rem .2rem 0;
+}
+
+.zoom button.left {
+  border-radius: .2rem 0 0 .2rem;
+}
+
+.chart {
+  max-width: calc(100vw - 400px);
+  overflow: auto;
+  align-self: center;
+  margin-right: 100px;
+}
+
+::ng-deep .ngx-charts .bar {
+  stroke: #4b3ff5;
+}

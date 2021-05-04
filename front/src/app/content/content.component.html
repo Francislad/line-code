@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="form">
+<!--    <div class="form-field">-->
+<!--      <label for="IP">IP</label>-->
+<!--      <input-->
+<!--        id="IP"-->
+<!--        type="text"-->
+<!--        [ngClass]="formClasses.ip"-->
+<!--        [disabled]="messageObject.done"-->
+<!--        [(ngModel)]="messageObject.ip">-->
+<!--    </div>-->
+
+    <div class="form-field">
+      <label for="Mensagem">Mensagem</label>
+      <input
+        id="Mensagem"
+        type="text"
+        [ngClass]="formClasses.message"
+        [disabled]="messageObject.done"
+        [(ngModel)]="messageObject.message">
+    </div>
+
+    <div class="form-field" *ngIf="messageObject.done">
+      <label for="Binário" class="">Binário
+        <small>
+          <input type="checkbox" class="form-check-input" [(ngModel)]="spaceds.binarySpaced">
+          <i>Espaçado</i>
+        </small>
+      </label>
+      <textarea
+        id="Binário"
+        disabled
+        *ngIf="!spaceds.binarySpaced"
+        [(ngModel)]="messageObject.binary"></textarea>
+
+      <textarea
+        id="Binário"
+        disabled
+        *ngIf="spaceds.binarySpaced"
+        [(ngModel)]="messageObject.binarySpaced"></textarea>
+    </div>
+
+    <div class="form-field" *ngIf="messageObject.done">
+      <label for="Hexadecimal">Hexadecimal
+        <small>
+          <input type="checkbox" class="form-check-input" [(ngModel)]="spaceds.hexSpaced">
+          <i>Espaçado</i>
+        </small>
+      </label>
+      <textarea
+        id="Hexadecimal"
+        disabled
+        *ngIf="!spaceds.hexSpaced"
+        [(ngModel)]="messageObject.hex"></textarea>
+      <textarea
+        id="Hexadecimal"
+        disabled
+        *ngIf="spaceds.hexSpaced"
+        [(ngModel)]="messageObject.hexSpaced"></textarea>
+    </div>
+
+    <div class="form-field" *ngIf="messageObject.done">
+      <label for="Sinal">Sinal
+        <small>
+          <input type="checkbox" class="form-check-input" [(ngModel)]="spaceds.signalSpaced">
+          <i>Espaçado</i>
+        </small>
+      </label>
+      <textarea
+        id="Sinal"
+        disabled
+        *ngIf="!spaceds.signalSpaced"
+        [(ngModel)]="messageObject.encodedMessage"></textarea>
+      <textarea
+        id="Sinal"
+        disabled
+        *ngIf="spaceds.signalSpaced"
+        [(ngModel)]="messageObject.encodedSpacedMessage"></textarea>
+    </div>
+
+    <div class="button" *ngIf="!messageObject.done">
+      <button class="btn btn-success" type="submit" (click)="sendMessage()">Enviar mensagem</button>
+    </div>
+  </div>
+
+  <div class="chart" *ngIf="messageObject.done">
+    <ngx-charts-bar-vertical
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="messageObject.encodedSignal"
+      [barPadding]="barPadding"
+      [roundEdges]="roundEdges"
+      [showGridLines]="showGridLines"
+      [yAxis]="showYAxis"
+      [noBarWhenZero]="false"
+      (select)="onSelect($event)">
+    </ngx-charts-bar-vertical>
+  </div>
+
+  <div class="zoom" *ngIf="messageObject.done">
+    <button class="btn btn-success btn-sm left" (click)="lessZoom()">
+      <i class="bi bi-zoom-out"></i>
+    </button>
+    <button class="btn btn-success btn-sm right" (click)="moreZoom()">
+      <i class="bi bi-zoom-in"></i>
+    </button>
+  </div>
+</div>
