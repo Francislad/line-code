@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+
+import {RequestService} from "../services/request.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -7,9 +9,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor() { }
+  messageObjs;
+  messageObjSelected;
+  @Output() messageObjSelectedEmitter = new EventEmitter<any>();
 
-  ngOnInit(): void {
+  constructor(private requestService: RequestService) {
   }
 
+  ngOnInit(): void {
+    this.getMessages();
+  }
+
+  getMessages(): any {
+    setInterval(() => {
+      this.requestService.getMessages().subscribe(res => {
+        this.messageObjs = res;
+      });
+    }, 5000);
+  }
+
+  onMessageObjSelected(messageObj): void {
+    this.messageObjSelected = messageObj;
+    this.messageObjSelectedEmitter.emit(this.messageObjSelected);
+  }
+
+  newMessage(): void {
+    this.messageObjSelected = {};
+    this.messageObjSelectedEmitter.emit({});
+  }
 }

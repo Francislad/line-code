@@ -1,5 +1,5 @@
 <app-header></app-header>
 <div class="content">
-  <app-sidebar></app-sidebar>
-  <app-content></app-content>
+  <app-sidebar (messageObjSelectedEmitter)="messageObjSelectedListener($event)"></app-sidebar>
+  <app-content [msgObj]="messageObjSelected"></app-content>
 </div>

@@ -1,14 +1,16 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { ContentComponent } from './content/content.component';
-import { FooterComponent } from './footer/footer.component';
+import {AppComponent} from './app.component';
+import {HeaderComponent} from './header/header.component';
+import {SidebarComponent} from './sidebar/sidebar.component';
+import {ContentComponent} from './content/content.component';
+import {FooterComponent} from './footer/footer.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {HttpClientModule} from '@angular/common/http';
+import {RequestService} from "./services/request.service";
 
 @NgModule({
   declarations: [
@@ -23,9 +25,11 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     FormsModule,
     NgxChartsModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [RequestService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

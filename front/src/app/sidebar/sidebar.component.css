@@ -1,20 +1,48 @@
-.sidebar {
+.history {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   height: 100%;
   width: 150px;
   border-right: 1px solid #D7DBDD;
+  overflow: hidden;
 }
 
-.sidebar-item {
+.button {
+  margin: 5px 0 5px 5px;
+}
+
+.button button {
+  width: 100%;
+  border-radius: 8px 0 0 8px;
+  font-size: 12px;
+  padding: 5px;
+}
+
+.history-header {
+  border-bottom: 1px solid #D7DBDD;
+}
+
+.divider .divider-header {
+  background-color: #EEF3F5;
+  padding: 5px;
+  margin: 5px 0 5px 5px;
+  border-radius: 8px 0 0 8px;
+  min-width: 0;
+  text-align: center;
+}
+
+.history-item {
   cursor: pointer;
   font-size: 12px;
   padding: 5px;
-  margin: 5px;
+  margin: 5px 0 5px 5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
-.sidebar-item.selected {
+.history-item.selected {
   background-color: #EEF3F5;
-  border-radius: 4px;
+  border-radius: 8px 0 0 8px;
 }

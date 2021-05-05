@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-
-import {messageSender} from '../../../../back/app/services/request.service';
+import {Component, Input, OnInit} from '@angular/core';
+import {RequestService} from '../services/request.service';
 
 @Component({
   selector: 'app-content',
@@ -29,6 +28,7 @@ export class ContentComponent implements OnInit {
   };
 
   messageObject = {
+    id: '',
     message: '',
     binary: '',
     binarySpaced: '',
@@ -45,10 +45,20 @@ export class ContentComponent implements OnInit {
     domain: ['#4b3ff5']
   };
 
-  constructor() {
+
+  @Input('msgObj') set build(msgObj) {
+      this.messageObject = msgObj;
+      if (!this.messageObject || !this.messageObject.done) { this.messageObject.done = false; }
+      this.view = [this.messageObject.viewWidth, 300];
+      this.minViewWidth = this.messageObject.viewWidth / 1.5;
+      this.maxViewWidth = this.messageObject.viewWidth * 4;
+    }
+
+  constructor(private requestService: RequestService) {
   }
 
   ngOnInit(): void {
+    this.build = {};
   }
 
   onSelect(event): void {
@@ -64,12 +74,8 @@ export class ContentComponent implements OnInit {
 
     this.formClasses.message = '';
 
-    messageSender(message).then(res => {
-      console.log(res);
-      this.messageObject = res;
-      this.view = [this.messageObject.viewWidth, 300];
-      this.minViewWidth = this.messageObject.viewWidth;
-      this.maxViewWidth = this.messageObject.viewWidth * 4;
+    this.requestService.sendMessage(message).subscribe((res) => {
+      this.build = res;
     });
   }
 
