@@ -21,6 +21,9 @@ server.opts('/*', (req, res, next) => {
   res.send(200);
 });
 
+server.get('/', function (req, res) {
+  res.send('hello');
+});
 server.get('/messages', getMessages);
 server.post('/send', messageSender);
 server.post('/receive', messageReceiver);

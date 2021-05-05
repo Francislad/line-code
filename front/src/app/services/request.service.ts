@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class RequestService {
   constructor(private http: HttpClient) {
   }
 
-  be = 'http://localhost:8080/';
+  be = environment.senderIp;
 
   getMessages(): any {
     const url = this.be + 'messages';
