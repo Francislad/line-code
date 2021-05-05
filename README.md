@@ -48,3 +48,8 @@ On the front is possible to see:
 - the hexdecimal
 - the encoded signal
 - the graph for the encoded signal
+
+
+
+## Useful links
+**Explanations**: https://docs.google.com/document/d/1X00RJ3-QrzzB2dqg36ii6BqfKGh0fl7s8_lu79mmIUg/edit?usp=sharing
