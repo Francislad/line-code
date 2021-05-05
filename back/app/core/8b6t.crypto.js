@@ -19,6 +19,19 @@ function DCLevel(signal) {
   }, 0);
 }
 
+function crypter(message) {
+  let messageArr = message.split("");
+  let length = messageArr.length;
+
+  for(let i = 0; i < Math.floor(length / 2); i++) {
+    if(i % 2) continue;
+    let aux = messageArr[length - 1 - i];
+    messageArr[length - 1 - i] = messageArr[i];
+    messageArr[i] = aux;
+  }
+  return messageArr.join("");
+}
+
 
 function strToAsciiArr(message) {
   return message.split("").map(c => {
@@ -89,7 +102,6 @@ function hexSignalArrToEncodedSignal(hexSignalArr) {
   }, []);
 }
 
-
 function encodedMessageToHexArr(encodedMessage) {
   let hexArr = [];
   let i = 0;
@@ -130,7 +142,8 @@ function asciiArrToMessage(asciiArr) {
 
 
 function encode(message) {
-  const asciiArr = strToAsciiArr(message);//[ 109, 111, 99 ]
+  const cryptedMessage = crypter(message);
+  const asciiArr = strToAsciiArr(cryptedMessage);//[ 109, 111, 99 ]
   const binArr = asciiArrToBinArr(asciiArr);//[ '1101101', '1101111', '1100011' ]
   const hexArr = binArrToHexArr(binArr);//[ '6D', '6F', '63' ]
   const hexSignalArr = hexArrToHexSignalArr(hexArr);//[ { hex: '6D', signal: '++0+--' },...]
@@ -155,7 +168,8 @@ function decode(encodedMessage) {
   const hexArr = encodedMessageToHexArr(encodedMessage);//[ '6D', '6F', '63' ]
   const binArr = hexArrToBinArr(hexArr);//[ '1101101', '1101111', '1100011' ]
   const asciiArr = binArrToAsciiArr(binArr);//[ 109, 111, 99 ]
-  const message = asciiArrToMessage(asciiArr);//'moc'
+  const cryptedMessage = asciiArrToMessage(asciiArr);//'moc'
+  const message = crypter(cryptedMessage);
   const hexSignalArr = hexArrToHexSignalArr(hexArr);//[ { hex: '6D', signal: '++0+--' },...]
   const encodedSpacedMessage = hexSignalArrToEncodedSpacedMessage(hexSignalArr);//'++0+-- --0++- +0+00-'
   const encodedSignal = hexSignalArrToEncodedSignal(hexSignalArr);//[ { name: '6D-1/1', value: 1 },...]
