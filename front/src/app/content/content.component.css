@@ -41,6 +41,8 @@
 .form-field textarea {
   min-height: 60px;
   resize: vertical;
+  font-family: monospace;
+  font-size: larger;
 }
 
 .form-field label {
