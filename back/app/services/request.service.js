@@ -4,19 +4,19 @@ const {messages, messageSent, messageReceived} = require('./messages.service');
 const {senderIp} = require('../env.config');
 
 function messageReceiver(req, res) {
-  console.log({received: req.body.signal});
+  const signal = req.body.signal;
+  // console.log({received: signal});
+  const messageObject = crypto.decodeMessage(signal);
+  const receivedMessage = messageReceived(messageObject);
 
-  const messageObject = crypto.encodeMessage(req.body.signal);
-  messageReceived(messageObject);
-
-  res.send(200);
+  res.send(200, receivedMessage);
 }
 
 function messageSender(req, res) {
   const message = req.body.message;
-  console.log({sent: message});
+  // console.log({sent: message});
   const messageObject = crypto.encodeMessage(message);
-  const signal = messageObject.message;
+  const signal = messageObject.encodedMessage;
 
   return axios.post(
     senderIp + '/receive',

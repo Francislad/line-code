@@ -1,3 +1,3 @@
 module.exports = {
-  senderIp: 'http://25.13.152.103:8080'
+  senderIp: 'http://localhost:8080'
 };
