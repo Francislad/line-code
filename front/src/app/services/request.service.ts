@@ -15,12 +15,12 @@ export class RequestService {
   be = environment.senderIp;
 
   getMessages(): any {
-    const url = this.be + 'messages';
+    const url = this.be + '/messages';
     return this.http.get(url);
   }
 
   sendMessage(message): any {
-    const url = this.be + 'send';
+    const url = this.be + '/send';
     return this.http.post(url, {message});
   }
 }

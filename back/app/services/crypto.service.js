@@ -4,8 +4,8 @@ function encodeMessage(message) {
   return algorithm8b6t.encode(message);
 }
 
-function decodeMessage(message) {
-
+function decodeMessage(signal) {
+  return algorithm8b6t.decode(signal);
 }
 
 module.exports = {

@@ -2,8 +2,8 @@ const {bToT, tToB} = require('./tables');
 
 function invertSignal(signal) {
   return signal.split("").map(t => {
-    if(t === '-') return '+';
-    if(t === '+') return '-';
+    if (t === '-') return '+';
+    if (t === '+') return '-';
     return 0;
   }).join("");
 }
@@ -13,70 +13,70 @@ function invertSignal(signal) {
  */
 function DCLevel(signal) {
   return signal.split('').reduce((level, s) => {
-    if(s === '-') return level - 1;
-    if(s === '+') return level + 1;
+    if (s === '-') return level - 1;
+    if (s === '+') return level + 1;
     return level;
   }, 0);
 }
 
 
-function convertStrToAsciiArr(message) {
+function strToAsciiArr(message) {
   return message.split("").map(c => {
     return c.charCodeAt();
   });
 }
 
-function convertAsciiArrToBinArr(asciiArr) {
+function asciiArrToBinArr(asciiArr) {
   return asciiArr.map(ascii => {
-    return convertAsciiToBin(ascii);
+    return asciiToBin(ascii);
   })
 }
 
-function convertAsciiToBin(asciiStr) {
+function asciiToBin(asciiStr) {
   return parseInt(asciiStr, 10).toString(2);
 }
 
-function convertBinArrToHexArr(binArr) {
+function binArrToHexArr(binArr) {
   return binArr.map(bin => {
-    return convertBinToHex(bin);
+    return binToHex(bin);
   })
 }
 
-function convertBinToHex(binStr) {
+function binToHex(binStr) {
   return parseInt(binStr, 2).toString(16).toUpperCase();
 }
 
-
-function encode(message) {
+function hexArrToHexSignalArr(hexArr) {
   let last = 0;
-  let hexCounters = {};
-
-  const asciiArr = convertStrToAsciiArr(message);
-  const binArr = convertAsciiArrToBinArr(asciiArr);
-  const hexArr = convertBinArrToHexArr(binArr);
-
-  const hexSignalArr = hexArr.map(hex => {
+  return hexArr.map(hex => {
     let signal = bToT[hex];
-      if(last) {
-        last = 0;
-        return {hex, signal: invertSignal(signal)};
-      }
-      last = DCLevel(signal);
+    if (last) {
+      last = 0;
+      return {hex, signal: invertSignal(signal)};
+    }
+    last = DCLevel(signal);
     return {hex, signal};
   });
+}
 
-  const encodedSpacedMessage = hexSignalArr.reduce((m, hexSignal) => {
+function hexSignalArrToEncodedSpacedMessage(hexSignalArr) {
+  return hexSignalArr.reduce((m, hexSignal) => {
     return m + hexSignal.signal + ' ';
   }, '').slice(0, -1);
+}
 
-  const encodedMessage = hexSignalArr.reduce((m, hexSignal) => {
+function hexSignalArrToEncodedMessage(hexSignalArr) {
+  return hexSignalArr.reduce((m, hexSignal) => {
     return m + hexSignal.signal;
   }, '');
+}
 
-  const encodedSignal = hexSignalArr.reduce((eS, hexSignal) => {
+function hexSignalArrToEncodedSignal(hexSignalArr) {
+  let hexCounters = {};
+  return hexSignalArr.reduce((eS, hexSignal) => {
     let i = 1;
 
-    if(hexCounters[hexSignal.hex]) hexCounters[hexSignal.hex]++;
+    if (hexCounters[hexSignal.hex]) hexCounters[hexSignal.hex]++;
     else hexCounters[hexSignal.hex] = 1;
 
     let hexSignalsArr = hexSignal.signal.split("").map(s => {
@@ -87,22 +87,90 @@ function encode(message) {
 
     return [...eS, ...hexSignalsArr];
   }, []);
+}
+
+
+function encodedMessageToHexArr(encodedMessage) {
+  let hexArr = [];
+  let i = 0;
+  while (encodedMessage.length > i) {
+    let signal = encodedMessage.slice(i, i + 6);
+    let hex = tToB[signal] ? tToB[signal] : tToB[invertSignal(signal)];
+    hexArr.push(hex);
+    i = i + 6;
+  }
+  return hexArr;
+}
+
+function hexArrToBinArr(hexArr) {
+  return hexArr.map(hex => {
+    return hexToBin(hex);
+  })
+}
+
+function hexToBin(hexStr) {
+  return parseInt(hexStr, 16).toString(2).toUpperCase();
+}
+
+function binArrToAsciiArr(binArr) {
+  return binArr.map(bin => {
+    return binToAscii(bin);
+  })
+}
+
+function binToAscii(binStr) {
+  return parseInt(binStr, 2).toString(10);
+}
+
+function asciiArrToMessage(asciiArr) {
+  return asciiArr.reduce((m, ascii) => {
+    return m + String.fromCharCode(ascii);
+  }, "");
+}
+
+
+function encode(message) {
+  const asciiArr = strToAsciiArr(message);//[ 109, 111, 99 ]
+  const binArr = asciiArrToBinArr(asciiArr);//[ '1101101', '1101111', '1100011' ]
+  const hexArr = binArrToHexArr(binArr);//[ '6D', '6F', '63' ]
+  const hexSignalArr = hexArrToHexSignalArr(hexArr);//[ { hex: '6D', signal: '++0+--' },...]
+  const encodedSpacedMessage = hexSignalArrToEncodedSpacedMessage(hexSignalArr);//'++0+-- --0++- +0+00-'
+  const encodedMessage = hexSignalArrToEncodedMessage(hexSignalArr);//'++0+----0++-+0+00-'
+  const encodedSignal = hexSignalArrToEncodedSignal(hexSignalArr);//[ { name: '6D-1/1', value: 1 },...]
 
   return {
-    message,
-    binary: binArr.join(""),
-    binarySpaced: binArr.join(" "),
-    hex: hexArr.join(""),
-    hexSpaced: hexArr.join(" "),
-    encodedMessage,
-    encodedSpacedMessage,
-    encodedSignal,
-    viewWidth: message.length * 350
+    message,//'moc'
+    binary: binArr.join(""),//'110110111011111100011'
+    binarySpaced: binArr.join(" "),//'1101101 1101111 1100011'
+    hex: hexArr.join(""),//'6D6F63'
+    hexSpaced: hexArr.join(" "),//'6D 6F 63'
+    encodedMessage,//'++0+----0++-+0+00-'
+    encodedSpacedMessage,//'++0+-- --0++- +0+00-'
+    encodedSignal,//[ { name: '6D-1/1', value: 1 },...]
+    viewWidth: message.length * 350//1050
   };
 }
 
 function decode(encodedMessage) {
-  //todo: decode the message
+  const hexArr = encodedMessageToHexArr(encodedMessage);//[ '6D', '6F', '63' ]
+  const binArr = hexArrToBinArr(hexArr);//[ '1101101', '1101111', '1100011' ]
+  const asciiArr = binArrToAsciiArr(binArr);//[ 109, 111, 99 ]
+  const message = asciiArrToMessage(asciiArr);//'moc'
+  const hexSignalArr = hexArrToHexSignalArr(hexArr);//[ { hex: '6D', signal: '++0+--' },...]
+  const encodedSpacedMessage = hexSignalArrToEncodedSpacedMessage(hexSignalArr);//'++0+-- --0++- +0+00-'
+  const encodedSignal = hexSignalArrToEncodedSignal(hexSignalArr);//[ { name: '6D-1/1', value: 1 },...]
+
+  return {
+    message,//'moc'
+    binary: binArr.join(""),//'110110111011111100011'
+    binarySpaced: binArr.join(" "),//'1101101 1101111 1100011'
+    hex: hexArr.join(""),//'6D6F63'
+    hexSpaced: hexArr.join(" "),//'6D 6F 63'
+    encodedMessage,//'++0+----0++-+0+00-'
+    encodedSpacedMessage,//'++0+-- --0++- +0+00-'
+    encodedSignal,//[ { name: '6D-1/1', value: 1 },...]
+    viewWidth: message.length * 350//1050
+  };
 }
 
 module.exports = {
