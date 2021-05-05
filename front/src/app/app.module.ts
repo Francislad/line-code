@@ -5,7 +5,6 @@ import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
 import {SidebarComponent} from './sidebar/sidebar.component';
 import {ContentComponent} from './content/content.component';
-import {FooterComponent} from './footer/footer.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -18,7 +17,6 @@ import {RequestService} from "./services/request.service";
     HeaderComponent,
     SidebarComponent,
     ContentComponent,
-    FooterComponent,
   ],
   imports: [
     BrowserModule,

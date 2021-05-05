@@ -5,8 +5,8 @@
     <button class="btn btn-success" (click)="newMessage()">Nova mensagem</button>
   </div>
 
+  <h6 class="divider-header">Recebidas</h6>
   <div class="divider received">
-    <h6 class="divider-header">Recebidas</h6>
     <div
       class="history-item"
       *ngFor="let messageObj of messageObjs?.received"
@@ -15,8 +15,9 @@
       {{messageObj.message}}
     </div>
   </div>
+
+  <h6 class="divider-header">Enviadas</h6>
   <div class="divider sent">
-    <h6 class="divider-header">Enviadas</h6>
     <div
       class="history-item"
       *ngFor="let messageObj of messageObjs?.sent"
@@ -25,4 +26,8 @@
       {{messageObj.message}}
     </div>
   </div>
+
+  <a class="git-logo" href="https://github.com/Francislad/line-code" target="_blank">
+    <img class="logo" src="assets/github-logo.png">
+  </a>
 </div>
