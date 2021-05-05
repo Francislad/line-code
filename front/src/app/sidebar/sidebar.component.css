@@ -24,13 +24,17 @@
   text-align: center;
 }
 
-.divider .divider-header {
+.divider-header {
   background-color: #EEF3F5;
   padding: 5px;
   margin: 5px 0 5px 5px;
   border-radius: 8px 0 0 8px;
   min-width: 0;
   text-align: center;
+}
+
+.divider {
+  overflow: auto;
 }
 
 .history-item {
@@ -46,4 +50,16 @@
 .history-item.selected {
   background-color: #EEF3F5;
   border-radius: 8px 0 0 8px;
+}
+
+.git-logo {
+  height: auto;
+  align-self: center;
+  flex-grow: 1;
+  display: flex;
+  align-items: flex-end;
+}
+
+.logo {
+  max-width: 100%;
 }
