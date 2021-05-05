@@ -1,35 +1,38 @@
 const axios = require('axios');
 const crypto = require('./crypto.service');
 const {messages, messageSent, messageReceived} = require('./messages.service');
+const {senderIp} = require('../env.config');
 
 function messageReceiver(req, res) {
-  // console.log({reqBody: req.body});
+  console.log({received: req.body.signal});
+
+  const messageObject = crypto.encodeMessage(req.body.signal);
+  messageReceived(messageObject);
+
   res.send(200);
 }
 
-function messageSender(message) {
-  console.log(message)
+function messageSender(req, res) {
+  const message = req.body.message;
+  console.log({sent: message});
   const messageObject = crypto.encodeMessage(message);
+  const signal = messageObject.message;
 
   return axios.post(
-    'http://localhost:8080/message',
-    {signal: messageObject})
+    senderIp + '/receive',
+    {signal})
     .then((response) => {
-      return messageSent({done: true, ...messageObject});
+      const sentMessage = messageSent(messageObject);
+      res.send(200, sentMessage);
     })
     .catch((error) => {
       console.log(error);
     });
 }
 
-function getMessages() {
-  return messages;
+function getMessages(req, res) {
+  res.send(messages);
 }
-
-// messageSender('12345', 'abelaco').then(res => {
-//   console.log(res);
-//   console.log(getMessages())
-// });
 
 module.exports = {
   messageReceiver,

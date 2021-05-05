@@ -1,5 +1,28 @@
-<div class="sidebar">
-  <div class="sidebar-item selected">Inbox</div>
-  <div class="sidebar-item">Contacts</div>
-  <div class="sidebar-item">Account</div>
+<div class="history">
+  <h4 class="history-header">Histórico</h4>
+
+  <div class="button">
+    <button class="btn btn-success" (click)="newMessage()">Nova mensagem</button>
+  </div>
+
+  <div class="divider received">
+    <h6 class="divider-header">Recebidas</h6>
+    <div
+      class="history-item"
+      *ngFor="let messageObj of messageObjs?.received"
+      [class.selected]="messageObj?.id === messageObjSelected?.id"
+      (click)="onMessageObjSelected(messageObj)">
+      {{messageObj.message}}
+    </div>
+  </div>
+  <div class="divider sent">
+    <h6 class="divider-header">Enviadas</h6>
+    <div
+      class="history-item"
+      *ngFor="let messageObj of messageObjs?.sent"
+      [class.selected]="messageObj?.id === messageObjSelected?.id"
+      (click)="onMessageObjSelected(messageObj)">
+      {{messageObj.message}}
+    </div>
+  </div>
 </div>
